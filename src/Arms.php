@@ -5,6 +5,7 @@ namespace Webman\Arms;
 use Webman\MiddlewareInterface;
 use Webman\Http\Response;
 use Webman\Http\Request;
+use Zipkin\Propagation\TraceContext;
 use Zipkin\TracingBuilder;
 use Zipkin\Samplers\BinarySampler;
 use Zipkin\Endpoint;
@@ -57,6 +58,26 @@ class Arms implements MiddlewareInterface
         }
 
         $rootSpan = $tracer->newTrace();
+        $b3TraceId = $request->header('X-B3-TraceId', '');
+        $b3SpanId = $request->header('X-B3-SpanId', '');
+        if (!empty($b3TraceId) && !empty($b3SpanId)) {
+            try {
+                $b3Sampled = $request->header('X-B3-Sampled', '');
+                $sampled = $b3Sampled === '1' ? true : ($b3Sampled === '0' ? false : null);
+                $parentContext = TraceContext::create(
+                    $b3TraceId,
+                    \Zipkin\Propagation\Id\generateNextId(),
+                    $b3SpanId,
+                    $sampled,
+                );
+                // newTrace() always generates a fresh trace id; newChild() keeps the
+                // upstream trace id and links this span under the caller's span
+                $rootSpan = $tracer->newChild($parentContext);
+            } catch (\Throwable $e) {
+                // Fall back to a new trace on invalid B3 headers, business is unaffected
+                $rootSpan = $tracer->newTrace();
+            }
+        }
         $rootSpan->setName($request->controller . "::" . $request->action . '(' . $request->uri() . ')');
         $rootSpan->start();
         $request->tracer = $tracer;
