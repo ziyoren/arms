@@ -106,6 +106,22 @@ class Arms implements MiddlewareInterface
             $paramsSpan->finish();
         }
 
+        if ($config['enable_request_headers']) {
+            // Record request headers; mask configured sensitive values before recording
+            $headers = $request->header();
+            $maskHeaders = array_map('strtolower', $config['mask_headers'] ?? []);
+            foreach ($headers as $headerName => $headerValue) {
+                if (in_array(strtolower($headerName), $maskHeaders, true)) {
+                    $headers[$headerName] = '***';
+                }
+            }
+            $headersSpan = $tracer->newChild($rootSpan->getContext());
+            $headersSpan->setName("Request:Headers");
+            $headersSpan->start();
+            $headersSpan->tag('request.headers', json_encode($headers, JSON_UNESCAPED_UNICODE));
+            $headersSpan->finish();
+        }
+
         if ($config['enable_response_body']) {
             //记录返回内容
             $responseSpan = $tracer->newChild($rootSpan->getContext());
