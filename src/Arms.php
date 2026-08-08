@@ -97,7 +97,7 @@ class Arms implements MiddlewareInterface
             }
         }
 
-        if ($config['enable_request_params']) {
+        if ($config['enable_request_params'] ?? false) {
             //记录入参
             $paramsSpan = $tracer->newChild($rootSpan->getContext());
             $paramsSpan->setName("Request:Params");
@@ -106,7 +106,7 @@ class Arms implements MiddlewareInterface
             $paramsSpan->finish();
         }
 
-        if ($config['enable_request_headers']) {
+        if ($config['enable_request_headers'] ?? false) {
             // Record request headers; mask configured sensitive values before recording
             $headers = $request->header();
             $maskHeaders = array_map('strtolower', $config['mask_headers'] ?? []);
@@ -122,7 +122,7 @@ class Arms implements MiddlewareInterface
             $headersSpan->finish();
         }
 
-        if ($config['enable_response_body']) {
+        if ($config['enable_response_body'] ?? false) {
             //记录返回内容
             $responseSpan = $tracer->newChild($rootSpan->getContext());
             $responseSpan->setName("Response:body");
