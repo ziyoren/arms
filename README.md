@@ -15,7 +15,7 @@ Webman ARMS —— 阿里云应用监控链路追踪组件，基于 [webman/arms
 
 ## 鸣谢
 
-感谢 [webman/arms](https://github.com/webman/arms) 原作者 [@adebug](https://github.com/adebug) 及所有贡献者（[@Tinywan](https://github.com/Tinywan) 等），本项目基于其代码二次开发，并保持 MIT 协议开源。
+感谢 [webman/arms](https://github.com/webman/arms) 原作者 [@walkor](https://github.com/walkor) 及所有贡献者（[@Tinywan](https://github.com/Tinywan) [@adebug](https://github.com/adebug)等），本项目基于其代码二次开发，并保持 MIT 协议开源。
 
 ## 安装
 
