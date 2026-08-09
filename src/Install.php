@@ -1,5 +1,5 @@
 <?php
-namespace Webman\Arms;
+namespace Ziyoren\Arms;
 
 class Install
 {
@@ -9,7 +9,7 @@ class Install
      * @var array
      */
     protected static $pathRelation = array (
-  'config/plugin/webman/arms' => 'config/plugin/webman/arms',
+  'config/plugin/ziyoren/arms' => 'config/plugin/ziyoren/arms',
 );
 
     /**

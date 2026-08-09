@@ -1,6 +1,6 @@
 <?php
 return [
     '' => [
-        Webman\Arms\Arms::class
+        Ziyoren\Arms\Arms::class
     ]
 ];

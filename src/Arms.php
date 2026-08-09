@@ -1,6 +1,6 @@
 <?php
 
-namespace Webman\Arms;
+namespace Ziyoren\Arms;
 
 use Webman\MiddlewareInterface;
 use Webman\Http\Response;
@@ -18,7 +18,7 @@ class Arms implements MiddlewareInterface
     public function process(Request $request, callable $next): Response
     {
         static $tracing = null, $tracer = null;
-        $config = config('plugin.webman.arms.app');
+        $config = config('plugin.ziyoren.arms.app');
         if (!$tracing) {
             $endpoint = Endpoint::create($config['app_name'], $request->getRealIp(), null, 2555);
             $logger = new \Monolog\Logger('log');

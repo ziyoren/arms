@@ -1,6 +1,7 @@
 {
-  "name": "webman/arms",
+  "name": "ziyoren/arms",
   "type": "library",
+  "description": "Webman ARMS 阿里云应用监控链路追踪组件（基于 webman/arms 二次开发）",
   "license": "MIT",
   "require": {
     "php": ">=7.2",
@@ -8,7 +9,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Webman\\Arms\\": "src"
+      "Ziyoren\\Arms\\": "src"
     }
   }
 }
