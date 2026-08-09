@@ -44,6 +44,24 @@ return [
 
 中间件类：`Ziyoren\Arms\Arms`。
 
+## 对接 Zipkin（本地调试）
+
+本组件基于 Zipkin v2 协议上报，`endpoint_url` 可直接指向任意 Zipkin 服务端，便于本地联调。使用 Docker 启动 Zipkin：
+
+```bash
+docker run -d -p 9411:9411 openzipkin/zipkin
+```
+
+服务启动后，将配置中的 `endpoint_url` 指向 Zipkin 上报端点：
+
+```php
+'endpoint_url' => 'http://your_host:9411/api/v2/spans',
+```
+
+打开 `http://your_host:9411/zipkin/` 即可在 Zipkin UI 中查询并查看链路详情。
+
+> 提示：容器内访问宿主机 Zipkin 时，将 `your_host` 替换为 `host.docker.internal`。
+
 ## 跨服务链路
 
 网关需向下游注入 B3 请求头（`X-B3-TraceId`、`X-B3-SpanId`、`X-B3-Sampled`），本组件会自动识别并续接上游链路；无 B3 头时自动创建新链路，业务不受影响。
@@ -51,3 +69,10 @@ return [
 ## 协议
 
 [MIT](LICENSE)
+
+## 链接
+- [阿里云应用监控](https://help.aliyun.com/document_detail/101872.html)
+- [Zipkin](https://zipkin.io/)
+- [webman/arms](https://github.com/webman/arms)
+- [webman arms 文档](https://www.workerman.net/plugin/3)
+- [webman](https://github.com/webman-php/webman)
